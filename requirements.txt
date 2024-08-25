@@ -1,0 +1,5 @@
+karton-core==5.*
+magika==0.*
+python-magic==0.*
+python-magic-bin==0.*; platform_system == "Windows"
+lxml==4.*
