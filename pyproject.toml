@@ -1,0 +1,33 @@
+[tool.black]
+line-length = 200
+target-version = ['py310']
+
+[tool.vulture]
+min_confidence = 80
+paths = ["filetype.py"]
+verbose = true
+
+[tool.ruff]
+line-length = 200
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D",
+    "ANN101",
+    "G004",
+    "TRY002",
+    "UP007",
+    "S603",
+    "S110",
+    "BLE001",
+    "S607",
+]
+flake8-quotes.inline-quotes = "single"
+
+[tool.ruff.lint.pylint]
+max-args = 10
+
+[tool.ruff.format]
+quote-style = "single"

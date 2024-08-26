@@ -1,5 +1,7 @@
 karton-core==5.*
+lxml==5.*
+lxml-stubs==0.*
 magika==0.*
 python-magic==0.*
 python-magic-bin==0.*; platform_system == "Windows"
-lxml==4.*
+tika==2.*
