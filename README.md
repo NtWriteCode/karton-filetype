@@ -1,51 +1,62 @@
-Markdown
-
 # Karton Filetype Engine
 
-**A Comprehensive Approach to File Classification for MWDB Karton**
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
+[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 
-**Introduction**
+## A Different Approach to File Classification for MWDB Karton
 
-The Karton Filetype Engine is a powerful tool designed for the MWDB Karton system. It goes beyond conventional file classification by leveraging Google's Magika library and meticulously analyzing files for the most accurate identification of their type. This engine prioritizes comprehensiveness, attempting various classification strategies to ensure the best possible results.
+The Karton Filetype Engine is a powerful tool designed for the MWDB Karton system. It's inspired by the [karton-classifier](https://github.com/CERT-Polska/karton-classifier), however it follows an entirely different approach. While the classifier tries to put all the possible labels on it hoping that at least one of the will be correct and consumed by the correct consumer, this repository tries its best to assign it to a SINGLE, but as correct file type as possible.
 
-**Key Features**
+## Utilized third party tools
 
-* **Enhanced Accuracy:** Employing Magika as the foundation, this engine strives to deliver exceptional file type identification.
-* **Platform Independence:** Function seamlessly across different operating systems, providing consistent performance.
-* **Future-Proof Design:** Planned integration with additional tools like TrID, Apache Tikka, and Linux's `file` command promises further refinement of binary classification capabilities.
-* **Streamlined Output:** Focuses on essential details, providing only the following in the output:
-    * `kind`: A filetype group
-    * `mimetype`: The MIME type of the file
-    * `label`: A custom label derived from Magika analysis
+In order to achieve the best accuracy Filetype engine uses all of the following tools:
 
-**Comparison to Karton-Classifier**
+- [Magika](https://github.com/google/magika)
+- [Apache Tika](https://tika.apache.org/)
+- [File magic](https://linux.die.net/man/5/magic)
+- [TrID](https://mark0.net/soft-trid-e.html)
 
-While Karton-Classifier offers file classification, Karton Filetype Engine distinguishes itself by:
+Also it utizises some external database/lists too to improve its mimetype knowledge:
 
-* **Singular Task Output:**  Provides a single, well-defined task for clarity and ease of use.
-* **Concise Data:**  Delivers only the most relevant information, streamlining your workflow.
+- [Python 'mimetypes'](https://docs.python.org/3/library/mimetypes.html)
+- [Freedesktop: shared-mime-info](https://wiki.freedesktop.org/www/Software/shared-mime-info/)
 
-**Current Stage of Development**
+## Input/Output
 
-The Karton Filetype Engine is under active development. We're committed to continuous improvement, incorporating more tools and refining its classification methodology.
+### Consumes
 
-**Getting Started**
+    {
+        "type": "sample",
+        "kind": "raw"
+        "payload": {
+            "magic":  "output from 'file' command",
+            "sample": <Resource>
+        }
+    }
 
-(Replace with specific instructions based on your implementation)
+### Produces
 
-* **Installation**
-    * Provide clear installation instructions tailored to your chosen environment.
-* **Usage**
-    * Offer illustrative examples demonstrating how to use the engine in your Karton projects.
+It produces a similar structure to classifier, however in no way it's compatible with that.
 
-**Contributing**
+    {
+    'type': 'sample',
+    'stage': 'recognized',
+    'extension': '',    # Literally an extension used by the file format
+                        # In some cases it's not the actual extension, but a placeholder, for example
+                        # for PEs it's "pe", which is nonexistent
+                        # By default "bin" is used.
+    'mime': '',         # The actual MIME type it identifies. Most of the cases it's provided by Magika and Tika,
+                        # hence they should be stable to use.
+                        # In case of no match "application/octet-stream" is used as default
+    'kind': '',         # A mixed hybrid of the TOP level items from:
+                        # https://www.digipres.org/formats/mime-types/
+                        # And one extra-custom introduced element for archives.
+                        # So, every mimetype will have either the TOP mimetype element or "archive"
+    ... (other fields are derived from incoming task)
+    }
 
-We welcome your contributions! Please refer to the CONTRIBUTING.md file for guidelines on how to get involved in the development process.
+I know, `Filetype`is more complicated to check. TODO
 
-**License**
+## Getting Started
 
-(Specify the license under which you distribute your code)
-
-**Support**
-
-For any questions or feedback, feel free to create an issue on this reposito
+TODO
