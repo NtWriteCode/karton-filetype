@@ -1,3 +1,4 @@
+---
 repos:
   - repo: 'https://github.com/pre-commit/pre-commit-hooks'
     rev: v4.6.0
@@ -32,6 +33,7 @@ repos:
     rev: v1.35.1
     hooks:
       - id: yamllint
+        args: ["-d", "{extends: default, rules: {line-length: {max: 120}}}"]
   - repo: 'https://github.com/AleksaC/hadolint-py'
     rev: v2.12.1b3
     hooks:
@@ -57,6 +59,12 @@ repos:
         args:
           - '--fix'
       - id: ruff-format
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        additional_dependencies:
+          - tomli
   - repo: 'https://github.com/RobertCraigie/pyright-python'
     rev: v1.1.377
     hooks:

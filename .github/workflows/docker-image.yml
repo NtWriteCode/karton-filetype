@@ -1,19 +1,20 @@
-name: Build and 
+---
+name: Build and
 
-on:
+on:   # yamllint disable-line rule:truthy
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ntwritecode/karton-filetype:latest
-    - name: Publish Docker image
-      run: |
-          docker login -u ntwritecode -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push ntwritecode/karton-filetype:latest
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ntwritecode/karton-filetype:latest
+      - name: Publish Docker image
+        run: |
+            docker login -u ntwritecode -p ${{ secrets.DOCKER_HUB_TOKEN }}
+            docker push ntwritecode/karton-filetype:latest
